@@ -25,5 +25,5 @@ export const listUsers = async () => {
     headers: { Authorization: getToken() }
   };
 
-  return await axios.get(`${SERVER_URL}/users`, headers);
+  return await axios.get(`${SERVER_URL}/users`, headers).then(res => res.data);
 };
