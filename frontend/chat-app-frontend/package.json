@@ -18,6 +18,9 @@
   "devDependencies": {
     "babel-preset-nano-react-app": "^0.1.0",
     "eslint": "^8.24.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.31.10",
     "prettier": "^2.7.1",
     "vite": "^3.0.2"
   },

@@ -54,6 +54,7 @@
     "prefer-template": "warn",
     "no-trailing-spaces": "error",
     "object-curly-spacing": ["error", "always"],
+    "eol-last": ["error", "always"],
     "prettier/prettier": [
       "error",
       {
