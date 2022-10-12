@@ -1,87 +1,55 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import "./LogIn.css";
-import { Card, Stack, Input, Button } from "@nordhealth/react";
+import { Card, Stack, Input, Button, Banner } from "@nordhealth/react";
 import { Link } from "react-router-dom";
-
-// helper hook for demo purposes
-function useField(name, initialValue = "") {
-  const [value, setValue] = useState(initialValue);
-  const [error, setError] = useState();
-  const ref = useRef();
-  const valid = Boolean(value);
-
-  useEffect(() => {
-    if (valid) {
-      setError(undefined);
-    }
-  }, [valid]);
-
-  return {
-    setError,
-    valid,
-    value,
-    focus: () => ref.current?.focus(),
-    inputProps: {
-      name,
-      value,
-      onInput: e => {
-        const input = e.target;
-        setValue(input.value);
-      },
-      error,
-      ref
-    }
-  };
-}
+import { loginUser } from "../api/userApi";
 
 function LogIn() {
-  const username = useField("username");
-  const password = useField("password");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
 
-  function handleSubmit(e) {
+  const handleSubmit = async e => {
     e.preventDefault();
 
-    if (username.valid && password.valid) {
-      alert(`User: ${username.value}\nPassword: ${password.value}`);
+    try {
+      await loginUser(username, password);
+    } catch (err) {
+      setError(err.response.data.error);
     }
-
-    if (!password.valid) {
-      password.setError("Please enter a password");
-      password.focus();
-    }
-
-    if (!username.valid) {
-      username.setError("Please enter a username");
-      username.focus();
-    }
-  }
+  };
 
   return (
     <>
       <Card padding="l">
         <h2 slot="header">Sign in</h2>
-        <form action="#" onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <Stack>
+            {error && <Banner variant="danger">{error}</Banner>}
             <Input
+              id="username-input"
               label="Username"
               expand
               type="email"
               placeholder="user@example.com"
-              {...username.inputProps}
+              required
+              value={username}
+              onChange={e => setUsername(e.target.value)}
             ></Input>
-
             <div className="password">
               <Input
+                id="password-input"
                 label="Password"
                 expand
                 type="password"
                 placeholder="••••••••"
-                {...password.inputProps}
+                required
+                value={password}
+                onChange={e => setPassword(e.target.value)}
               ></Input>
 
               <a href="#forgot">Forgot password?</a>
             </div>
-
             <Button type="submit" expand variant="primary">
               Sign in
             </Button>
@@ -90,7 +58,7 @@ function LogIn() {
       </Card>
 
       <Card className="n-align-center">
-        New to Nord? <Link to="/login">Create an account</Link>.
+        New to our app? <Link to="/login">Create an account</Link>.
       </Card>
     </>
   );
