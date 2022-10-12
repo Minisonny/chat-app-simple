@@ -2,28 +2,34 @@ import React, { useState } from "react";
 import "./LogIn.css";
 import { Card, Stack, Input, Button, Banner } from "@nordhealth/react";
 import { Link } from "react-router-dom";
-import { loginUser } from "../api/userApi";
+import { registerUser } from "../api/userApi";
 
 function LogIn() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
 
   const handleSubmit = async e => {
     e.preventDefault();
 
+    if (password !== confirmPassword) {
+      setError("Confirm password does not match!");
+      return;
+    }
+
     try {
-      await loginUser(username, password);
+      await registerUser(username, password, confirmPassword);
       setError(null);
     } catch (err) {
-      setError(err.response.data.error);
+      setError(err.response.data.errors[0]?.msg);
     }
   };
 
   return (
     <>
       <Card padding="l">
-        <h2 slot="header">Sign in</h2>
+        <h2 slot="header">Register</h2>
         <form onSubmit={handleSubmit}>
           <Stack>
             {error && <Banner variant="danger">{error}</Banner>}
@@ -48,18 +54,28 @@ function LogIn() {
                 value={password}
                 onChange={e => setPassword(e.target.value)}
               ></Input>
-
-              <a href="#forgot">Forgot password?</a>
+            </div>
+            <div className="password">
+              <Input
+                id="password-confirm-input"
+                label="Confirm password"
+                expand
+                type="password"
+                placeholder="••••••••"
+                required
+                value={confirmPassword}
+                onChange={e => setConfirmPassword(e.target.value)}
+              ></Input>
             </div>
             <Button type="submit" expand variant="primary">
-              Sign in
+              Sign up
             </Button>
           </Stack>
         </form>
       </Card>
 
       <Card className="n-align-center">
-        New to our app? <Link to="/register">Create an account</Link>.
+        Already registered? <Link to="/login">Log in</Link>.
       </Card>
     </>
   );
