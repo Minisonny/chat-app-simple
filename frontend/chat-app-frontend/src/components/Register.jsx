@@ -14,6 +14,7 @@ function LogIn() {
     e.preventDefault();
 
     if (password !== confirmPassword) {
+      // even though backend can validate this but it's better to do it on the client
       setError("Confirm password does not match!");
       return;
     }
