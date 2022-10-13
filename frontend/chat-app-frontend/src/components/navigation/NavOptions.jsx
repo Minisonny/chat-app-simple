@@ -18,7 +18,7 @@ const NAV_OPTION_CONFIG = [
     items: [
       {
         icon: "interface-bookmark",
-        href: "thread",
+        href: "/thread",
         text: "My threads",
         additionalProps: {}
       }
@@ -29,13 +29,13 @@ const NAV_OPTION_CONFIG = [
     items: [
       {
         icon: "text-list",
-        href: "thread",
+        href: "/thread",
         text: "View threads",
         additionalProps: {}
       },
       {
         icon: "interface-add",
-        href: "thread-create",
+        href: "/thread-create",
         text: "Create new threads",
         additionalProps: {}
       }

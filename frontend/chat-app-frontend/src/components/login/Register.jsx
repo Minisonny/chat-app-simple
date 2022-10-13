@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./LogIn.css";
 import { Card, Stack, Input, Button, Banner } from "@nordhealth/react";
 import { Link } from "react-router-dom";
-import { registerUser } from "../api/userApi";
+import { registerUser } from "../../api/userApi";
 
 function LogIn() {
   const [username, setUsername] = useState("");
