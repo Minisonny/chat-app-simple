@@ -4,7 +4,7 @@ import { Card, Stack, Input, Button, Banner } from "@nordhealth/react";
 import { Link } from "react-router-dom";
 import { registerUser } from "../../api/userApi";
 
-function LogIn() {
+function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -82,4 +82,4 @@ function LogIn() {
   );
 }
 
-export default LogIn;
+export default Register;

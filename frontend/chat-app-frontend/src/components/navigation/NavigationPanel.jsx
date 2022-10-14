@@ -4,10 +4,10 @@ import { Navigation } from "@nordhealth/react";
 import NavOption from "./NavOptions";
 import AccountToolbar from "./AccountToolbar";
 
-const NavigationPanel = () => {
+const NavigationPanel = ({ user, onSignOut }) => {
   return (
     <Navigation slot="nav">
-      <AccountToolbar></AccountToolbar>
+      <AccountToolbar user={user} onSignOut={onSignOut}></AccountToolbar>
       <NavOption></NavOption>
     </Navigation>
   );

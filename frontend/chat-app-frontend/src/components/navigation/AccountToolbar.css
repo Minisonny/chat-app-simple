@@ -3,6 +3,13 @@
   --_n-button-color: var(--n-color-text-weak);
   --_n-button-background-color: transparent;
 }
+.account-button-login {
+  --n-button-text-align: start;
+  --_n-button-color: var(--n-color-text-weak);
+  --_n-button-background-color: transparent;
+  --n-button-gap: 11.2px;
+  padding: var(--n-space-s);
+}
 .account-button:hover {
   --n-button-border-color: var(--n-color-border-hover);
 }

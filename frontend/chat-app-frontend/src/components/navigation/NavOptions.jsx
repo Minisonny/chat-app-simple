@@ -1,5 +1,6 @@
 import React from "react";
 import { NavItem, NavGroup } from "@nordhealth/react";
+import { Link } from "react-router-dom";
 
 const NAV_OPTION_CONFIG = [
   {
@@ -49,14 +50,19 @@ const NavOption = () => {
       {NAV_OPTION_CONFIG.map(group => (
         <NavGroup key={`nav-group-${group.heading}`} heading={group.heading}>
           {group.items.map((item, i) => (
-            <NavItem
-              key={`nav-item-${group.heading}-${i}`}
-              icon={item.icon}
-              href={item.href}
-              {...item.additionalProps}
+            <Link
+              key={`nav-link-${i}`}
+              to={item.href}
+              style={{ textDecoration: "none" }}
             >
-              {item.text}
-            </NavItem>
+              <NavItem
+                key={`nav-item-${group.heading}-${i}`}
+                icon={item.icon}
+                {...item.additionalProps}
+              >
+                {item.text}
+              </NavItem>
+            </Link>
           ))}
         </NavGroup>
       ))}

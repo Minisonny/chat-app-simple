@@ -1,22 +1,13 @@
 import React, { useState } from "react";
 import "./LogIn.css";
-import {
-  Card,
-  Stack,
-  Input,
-  Button,
-  Banner,
-  ToastGroup,
-  Toast
-} from "@nordhealth/react";
+import { Card, Stack, Input, Button, Banner } from "@nordhealth/react";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../../api/userApi";
 
-function LogIn() {
+function LogIn({ onSignIn }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  const [toast, setToast] = useState(null);
 
   const navigate = useNavigate();
 
@@ -24,17 +15,13 @@ function LogIn() {
     e.preventDefault();
 
     try {
-      await loginUser(username, password);
+      const user = await loginUser(username, password);
       setError(null);
-      setToast("Logged in successfully");
+      onSignIn(user);
       navigate("/thread");
     } catch (err) {
       setError(err.response.data.error);
     }
-  };
-
-  const onToastDismiss = () => {
-    setToast(null);
   };
 
   return (
@@ -78,14 +65,6 @@ function LogIn() {
       <Card className="n-align-center">
         New to our app? <Link to="/register">Create an account</Link>.
       </Card>
-
-      <ToastGroup>
-        {toast !== null && (
-          <Toast autoDismiss={2000} onDismiss={onToastDismiss}>
-            {toast}
-          </Toast>
-        )}
-      </ToastGroup>
     </>
   );
 }

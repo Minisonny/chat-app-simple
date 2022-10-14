@@ -4,14 +4,20 @@ import { listThreads } from "../../api/threadApi";
 import { useNavigate } from "react-router";
 import "./ThreadView.css";
 
-const ThreadView = () => {
+const ThreadView = ({ authorized }) => {
   const [threads, setThreads] = useState([]);
+
+  console.log(authorized)
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    listThreads().then(setThreads).catch(Error);
-  }, []);
+    if (authorized) {
+      listThreads().then(setThreads).catch(Error);
+    } else {
+      setThreads([]);
+    }
+  }, [authorized]);
 
   return (
     <>
