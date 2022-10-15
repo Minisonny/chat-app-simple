@@ -1,4 +1,11 @@
-import { Button, Select, Header, Input, Stack } from "@nordhealth/react";
+import {
+  Button,
+  Select,
+  Header,
+  Input,
+  Stack,
+  Banner
+} from "@nordhealth/react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { createMessages } from "../../api/messageApi";
@@ -18,8 +25,15 @@ const ThreadCreate = ({ userList, onThreadCreated }) => {
       setError(null);
       navigate("/thread");
     } catch (err) {
-      setError(err);
+      const { msg, param } = err.response.data.errors[0];
+      setError(getErrorMessage(msg, param));
     }
+  };
+
+  const getErrorMessage = (msg, field) => {
+    return `${msg}. Field: ${
+      field === "participantId" ? "Select a participant" : "Title"
+    }`;
   };
 
   return (
@@ -28,6 +42,7 @@ const ThreadCreate = ({ userList, onThreadCreated }) => {
         <h1 className="n-typescale-l">Create a new thread</h1>
       </Header>
       <Stack gap="l">
+        {error && <Banner variant="danger">{error}</Banner>}
         <Input
           label="Title"
           expand
