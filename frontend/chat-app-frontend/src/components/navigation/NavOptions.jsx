@@ -29,7 +29,7 @@ const NAV_OPTION_CONFIG = [
     heading: "Thread",
     items: [
       {
-        icon: "text-list",
+        icon: "interface-chat",
         href: "/thread",
         text: "View threads",
         additionalProps: {}

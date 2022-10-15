@@ -12,6 +12,7 @@
     "@nordhealth/css": "^2.4.0",
     "@nordhealth/react": "^2.8.0",
     "axios": "^1.1.2",
+    "moment": "^2.29.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router": "^6.4.2",

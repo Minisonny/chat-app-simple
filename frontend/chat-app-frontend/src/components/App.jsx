@@ -6,23 +6,37 @@ import "@nordhealth/css";
 import { Layout, ToastGroup, Toast } from "@nordhealth/react";
 import NavigationPanel from "./navigation/NavigationPanel";
 import ThreadView from "./thread/ThreadView";
+import MessageView from "./message/MessageView";
+import { unsetToken } from "../api/tokenManager";
+import { listUsers } from "../api/userApi";
+import ThreadCreate from "./thread/ThreadCreate";
 
 const App = () => {
-  const [user, setUser] = useState(null);
+  const [loggedInUser, setLoggedInUser] = useState(null);
+  const [userList, setUserList] = useState([]);
   const [toast, setToast] = useState(null);
 
   useEffect(() => {
     // const io = socketIOClient(SERVER_URL);
   }, []);
 
-  const onSignIn = user => {
-    setUser(user);
+  const onSignIn = async user => {
+    setLoggedInUser(user);
     setToast("Logged in successfully");
+
+    const listOfUsers = await listUsers();
+    setUserList(listOfUsers);
   };
 
   const onSignOut = () => {
-    setUser(null);
+    unsetToken();
+    setLoggedInUser(null);
+    setUserList([]);
     setToast("Logged out successfully");
+  };
+
+  const onThreadCreated = title => {
+    setToast(`Thread "${title}" created`);
   };
 
   const onToastDismiss = () => {
@@ -32,7 +46,10 @@ const App = () => {
   return (
     <div className="App">
       <Layout navOpen={true}>
-        <NavigationPanel user={user} onSignOut={onSignOut}></NavigationPanel>
+        <NavigationPanel
+          user={loggedInUser}
+          onSignOut={onSignOut}
+        ></NavigationPanel>
         <Routes>
           <Route exact path="/" element={<LogIn onSignIn={onSignIn} />} />
           <Route exact path="/login" element={<LogIn onSignIn={onSignIn} />} />
@@ -45,17 +62,27 @@ const App = () => {
           <Route
             exact
             path="/thread"
-            element={<ThreadView authorized={user !== null} />}
+            element={
+              <ThreadView
+                authorized={loggedInUser !== null}
+                userList={userList}
+              />
+            }
           />
           <Route
             exact
             path="/thread-create"
-            element={<LogIn onSignIn={onSignIn} />}
+            element={
+              <ThreadCreate
+                userList={userList}
+                onThreadCreated={onThreadCreated}
+              />
+            }
           />
           <Route
             exact
             path="/thread/:id"
-            element={<LogIn onSignIn={onSignIn} />}
+            element={<MessageView userList={userList} />}
           />
         </Routes>
         <ToastGroup>

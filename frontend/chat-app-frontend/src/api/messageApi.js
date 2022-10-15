@@ -2,24 +2,22 @@ import axios from "axios";
 import { SERVER_URL } from "../utils/constants";
 import { getToken } from "./tokenManager";
 
-export const listThreads = async () => {
+export const listMessages = async threadId => {
   const headers = {
     headers: { Authorization: getToken() }
   };
 
   return await axios
-    .get(`${SERVER_URL}/threads`, headers)
+    .get(`${SERVER_URL}/threads/${threadId}/messages`, headers)
     .then(res => res.data);
 };
 
-export const createThread = async (name, participantId) => {
+export const createMessages = async threadId => {
   const headers = {
     headers: { Authorization: getToken() }
   };
 
-  const payload = { name, participantId };
-
   return await axios
-    .post(`${SERVER_URL}/threads`, payload, headers)
+    .get(`${SERVER_URL}/threads/${threadId}/messages`, headers)
     .then(res => res.data);
 };
