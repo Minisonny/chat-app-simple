@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Header, Stack, Card, Button, Icon } from "@nordhealth/react";
 import { listThreads } from "../../api/threadApi";
 import { useNavigate } from "react-router";
 import "./ThreadView.css";
 import { getUsernameFromId } from "../../utils/helpers";
+import { withUnauthorized } from "../empty-state/Unauthorized";
 
 const ThreadView = ({ authorized, userList }) => {
   const [threads, setThreads] = useState([]);
@@ -33,18 +34,21 @@ const ThreadView = ({ authorized, userList }) => {
           </Button>
         )}
       </Header>
-      <Stack gap="l">
-        {threads.map(thread => (
-          <Card
-            key={`thread-${thread.id}`}
-            className="thread-card"
-            onClick={() => navigate(`${thread.id}`)}
-          >
-            <h2 slot="header">{thread.name}</h2>
-            Author: {getUsernameFromId(userList, thread?.UserThread?.userId)}
-          </Card>
-        ))}
-      </Stack>
+      {withUnauthorized(
+        <Stack gap="l">
+          {threads.map(thread => (
+            <Card
+              key={`thread-${thread.id}`}
+              className="thread-card"
+              onClick={() => navigate(`${thread.id}`)}
+            >
+              <h2 slot="header">{thread.name}</h2>
+              Author: {getUsernameFromId(userList, thread?.UserThread?.userId)}
+            </Card>
+          ))}
+        </Stack>,
+        authorized
+      )}
     </>
   );
 };

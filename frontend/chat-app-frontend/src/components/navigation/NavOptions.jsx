@@ -4,28 +4,6 @@ import { Link } from "react-router-dom";
 
 const NAV_OPTION_CONFIG = [
   {
-    heading: "",
-    items: [
-      {
-        icon: "navigation-search",
-        href: "#",
-        text: "Search",
-        additionalProps: {}
-      }
-    ]
-  },
-  {
-    heading: "User",
-    items: [
-      {
-        icon: "interface-bookmark",
-        href: "/thread",
-        text: "My threads",
-        additionalProps: {}
-      }
-    ]
-  },
-  {
     heading: "Thread",
     items: [
       {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Route, Routes } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
 import LogIn from "./login/LogIn";
 import Register from "./login/Register";
 import "@nordhealth/css";
@@ -10,6 +10,7 @@ import MessageView from "./message/MessageView";
 import { unsetToken } from "../api/tokenManager";
 import { listUsers } from "../api/userApi";
 import ThreadCreate from "./thread/ThreadCreate";
+import NotFound from "./empty-state/NotFound";
 
 const App = () => {
   const [loggedInUser, setLoggedInUser] = useState(null);
@@ -56,11 +57,6 @@ const App = () => {
           <Route exact path="/register" element={<Register />} />
           <Route
             exact
-            path="/profile"
-            element={<LogIn onSignIn={onSignIn} />}
-          />
-          <Route
-            exact
             path="/thread"
             element={
               <ThreadView
@@ -74,6 +70,7 @@ const App = () => {
             path="/thread-create"
             element={
               <ThreadCreate
+                authorized={loggedInUser !== null}
                 userList={userList}
                 onThreadCreated={onThreadCreated}
               />
@@ -82,8 +79,14 @@ const App = () => {
           <Route
             exact
             path="/thread/:id"
-            element={<MessageView userList={userList} />}
+            element={
+              <MessageView
+                authorized={loggedInUser !== null}
+                userList={userList}
+              />
+            }
           />
+          <Route path="*" element={<NotFound></NotFound>} />
         </Routes>
         <ToastGroup>
           {toast !== null && (
