@@ -8,7 +8,6 @@ import {
 } from "@nordhealth/react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
-import { createMessages } from "../../api/messageApi";
 import { createThread } from "../../api/threadApi";
 
 const ThreadCreate = ({ userList, onThreadCreated }) => {

@@ -12,12 +12,14 @@ export const listMessages = async threadId => {
     .then(res => res.data);
 };
 
-export const createMessages = async threadId => {
+export const createMessages = async (threadId, content) => {
   const headers = {
     headers: { Authorization: getToken() }
   };
 
+  const payload = { content };
+
   return await axios
-    .get(`${SERVER_URL}/threads/${threadId}/messages`, headers)
+    .post(`${SERVER_URL}/threads/${threadId}/messages`, payload, headers)
     .then(res => res.data);
 };
