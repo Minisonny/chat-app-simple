@@ -1,13 +1,18 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Header, Stack, Card, Button, Icon } from "@nordhealth/react";
 import { listThreads } from "../../api/threadApi";
 import { useNavigate } from "react-router";
 import "./ThreadView.css";
 import { getUsernameFromId } from "../../utils/helpers";
 import { withUnauthorized } from "../empty-state/Unauthorized";
-import { Thread } from "../../types/common";
+import { Thread, User } from "../../types/common";
 
-const ThreadView = ({ authorized, userList }) => {
+interface ThreadViewProps {
+  authorized: boolean;
+  userList: Array<User>;
+}
+
+const ThreadView = ({ authorized, userList }: ThreadViewProps) => {
   const [threads, setThreads] = useState<Array<Thread>>([]);
 
   const navigate = useNavigate();

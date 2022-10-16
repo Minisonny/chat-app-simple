@@ -4,10 +4,11 @@ import { Card, Stack, Input, Button, Banner } from "@nordhealth/react";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../../api/userApi";
 import { NullableString, User } from "../../types/common";
+import axios from "axios";
 
 interface LogInProps {
   onSignIn: (user: User) => void;
-};
+}
 
 function LogIn({ onSignIn }: LogInProps) {
   const [username, setUsername] = useState("");
@@ -16,7 +17,7 @@ function LogIn({ onSignIn }: LogInProps) {
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: Event) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
 
     try {
@@ -24,8 +25,10 @@ function LogIn({ onSignIn }: LogInProps) {
       setError(null);
       onSignIn(user);
       navigate("/thread");
-    } catch (err) {
-      setError(err.response.data.error);
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        setError(err.response?.data.error);
+      }
     }
   };
 

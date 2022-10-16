@@ -16,11 +16,12 @@ import { withUnauthorized } from "../empty-state/Unauthorized";
 import { SERVER_URL } from "../../utils/constants";
 import { NullableString, Thread } from "../../types/common";
 import { User } from "../../types/common";
+import axios from "axios";
 
 interface MessageViewProps {
   authorized: boolean;
   userList: Array<User>;
-};
+}
 
 type MessageThreadInfo = Omit<Thread, "UserThread">;
 
@@ -33,7 +34,7 @@ interface Message {
   updatedAt: string;
   user: User;
   thread: MessageThreadInfo;
-};
+}
 
 const MessageView = ({ authorized, userList }: MessageViewProps) => {
   const [messages, setMessages] = useState<Array<Message>>([]);
@@ -49,10 +50,14 @@ const MessageView = ({ authorized, userList }: MessageViewProps) => {
     });
 
     io.on("message", (newMessage: Message) =>
-      setMessages((prevMessages: Array<Message>) => prevMessages.concat(newMessage))
+      setMessages((prevMessages: Array<Message>) =>
+        prevMessages.concat(newMessage)
+      )
     );
 
-    return () => io.disconnect();
+    return () => {
+      io.disconnect();
+    };
   }, []);
 
   useEffect(() => {
@@ -63,14 +68,16 @@ const MessageView = ({ authorized, userList }: MessageViewProps) => {
     try {
       // new message is handled and added to the UI by socket IO
       await createMessages(id, newMsg);
-    } catch (err) {
-      setError(err.response.data.errors.msg);
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        setError(err.response?.data.errors.msg);
+      }
     }
 
     setNewMsg("");
   };
 
-  const onEnterPressed = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const onEnterPressed = async (e: React.KeyboardEvent<HTMLElement>) => {
     if (e.key === "Enter") {
       await onMessageSend();
     }
@@ -88,7 +95,9 @@ const MessageView = ({ authorized, userList }: MessageViewProps) => {
               <Card key={`msg-${msg.id}`} className="msg-card">
                 <h2 slot="header">{getUsernameFromId(userList, msg.sender)}</h2>
                 {msg.content}
-                <div slot="header-end">{getHumanFriendlyDate(msg.updatedAt)}</div>
+                <div slot="header-end">
+                  {getHumanFriendlyDate(msg.updatedAt)}
+                </div>
               </Card>
             ))}
           </Stack>

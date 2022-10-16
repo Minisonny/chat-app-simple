@@ -1,4 +1,4 @@
-FROM node:16
+FROM node:17
 
 WORKDIR /app
 
@@ -8,6 +8,6 @@ RUN npm ci
 
 COPY . .
 
-EXPOSE 5173
+EXPOSE 3000
 
 CMD ["npm", "start"]

@@ -8,11 +8,17 @@ import {
 } from "@nordhealth/react";
 import "./AccountToolbar.css";
 import { useNavigate } from "react-router-dom";
+import { Nullable, User } from "../../types/common";
 
-const SignedInHeader = ({ username, onSignOut }) => (
+interface SignedInHeaderProps {
+  username: string;
+  onSignOut: () => void;
+}
+
+const SignedInHeader = ({ username, onSignOut }: SignedInHeaderProps) => (
   <>
     <Dropdown expand slot="header">
-      <Button class="account-button" slot="toggle" expand variant="plain">
+      <Button className="account-button" slot="toggle" expand variant="plain">
         <Avatar
           aria-hidden="true"
           name="Laura Williams"
@@ -35,7 +41,7 @@ const SignedOutHeader = () => {
 
   return (
     <Button
-      class="account-button-login"
+      className="account-button-login"
       slot="header"
       expand
       variant="plain"
@@ -47,7 +53,12 @@ const SignedOutHeader = () => {
   );
 };
 
-const AccountToolbar = ({ user, onSignOut }) => {
+interface AccountToolbarProps {
+  user: Nullable<User>;
+  onSignOut: () => void;
+}
+
+const AccountToolbar = ({ user, onSignOut }: AccountToolbarProps) => {
   return user ? (
     <SignedInHeader username={user.username} onSignOut={onSignOut} />
   ) : (

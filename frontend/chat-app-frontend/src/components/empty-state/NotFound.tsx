@@ -1,5 +1,5 @@
-import { EmptyState, Stack, Button } from "@nordhealth/react";
 import React from "react";
+import { EmptyState, Stack, Button } from "@nordhealth/react";
 import { useNavigate } from "react-router";
 
 const NotFound = () => {

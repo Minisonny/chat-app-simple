@@ -15,7 +15,7 @@ const ICON_LIST = [
 
 interface WelcomeProps {
   user: Nullable<User>;
-};
+}
 
 const Welcome = ({ user }: WelcomeProps) => {
   const [icon, setIcon] = useState(ICON_LIST[0]);

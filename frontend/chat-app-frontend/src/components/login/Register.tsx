@@ -4,10 +4,11 @@ import { Card, Stack, Input, Button, Banner } from "@nordhealth/react";
 import { Link } from "react-router-dom";
 import { registerUser } from "../../api/userApi";
 import { NullableString } from "../../types/common";
+import axios from "axios";
 
 interface RegisterProps {
   onRegister: (username: string) => void;
-};
+}
 
 function Register({ onRegister }: RegisterProps) {
   const [username, setUsername] = useState("");
@@ -15,7 +16,7 @@ function Register({ onRegister }: RegisterProps) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<NullableString>(null);
 
-  const handleSubmit = async (e: MouseEvent) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
@@ -28,8 +29,11 @@ function Register({ onRegister }: RegisterProps) {
       await registerUser(username, password, confirmPassword);
       setError(null);
       onRegister(username);
-    } catch (err) {
-      setError(err.response.data.errors[0]?.msg);
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        const { msg } = err.response?.data.errors[0] || {};
+        setError(msg);
+      }
     }
   };
 
@@ -70,7 +74,9 @@ function Register({ onRegister }: RegisterProps) {
               placeholder="••••••••"
               required
               value={confirmPassword}
-              onChange={e => setConfirmPassword((e.target as HTMLInputElement).value)}
+              onChange={e =>
+                setConfirmPassword((e.target as HTMLInputElement).value)
+              }
             ></Input>
           </div>
           <Button type="submit" expand variant="primary" onClick={handleSubmit}>

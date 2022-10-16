@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Button,
   Select,
@@ -6,20 +7,25 @@ import {
   Stack,
   Banner
 } from "@nordhealth/react";
-import React, { useState } from "react";
+import axios from "axios";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 import { createThread } from "../../api/threadApi";
 import { NullableString } from "../../types/common";
 import { User } from "../../types/common";
 import { withUnauthorized } from "../empty-state/Unauthorized";
 
-interface ThreadCreate {
+interface ThreadCreateProps {
   authorized: boolean;
   userList: Array<User>;
   onThreadCreated: (title: string) => void;
-};
+}
 
-const ThreadCreate = ({ authorized, userList, onThreadCreated }: ThreadCreate) => {
+const ThreadCreate = ({
+  authorized,
+  userList,
+  onThreadCreated
+}: ThreadCreateProps) => {
   const [title, setTitle] = useState("");
   const [selectedUserId, setSelectedUserId] = useState("");
   const [error, setError] = useState<NullableString>(null);
@@ -32,13 +38,15 @@ const ThreadCreate = ({ authorized, userList, onThreadCreated }: ThreadCreate) =
       onThreadCreated(title);
       setError(null);
       navigate("/thread");
-    } catch (err) {
-      const { msg, param } = err.response.data.errors[0];
-      setError(getErrorMessage(msg, param));
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        const { msg, param } = err?.response?.data?.errors[0] || {};
+        setError(getErrorMessage(msg, param));
+      }
     }
   };
 
-  const getErrorMessage = (msg, field) => {
+  const getErrorMessage = (msg: string, field: string) => {
     return `${msg}. Field: ${
       field === "participantId" ? "Select a participant" : "Title"
     }`;
@@ -67,7 +75,9 @@ const ThreadCreate = ({ authorized, userList, onThreadCreated }: ThreadCreate) =
             value={selectedUserId}
             label="Select a participant"
             required
-            onChange={e => setSelectedUserId((e.target as HTMLInputElement).value)}
+            onChange={e =>
+              setSelectedUserId((e.target as HTMLInputElement).value)
+            }
           >
             {userList.map(user => (
               <option key={`user-option-${user.id}`} value={user.id}>
