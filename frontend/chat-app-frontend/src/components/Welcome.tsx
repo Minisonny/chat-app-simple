@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { Nullable } from "../types/common";
 import { User } from "../types/common";
+import "./Welcome.css";
 
 const ICON_LIST = [
   "generic-feline",
@@ -28,7 +29,7 @@ const Welcome = ({ user }: WelcomeProps) => {
   };
 
   return (
-    <Stack alignItems="center" justifyContent="center">
+    <Stack className="welcome-page" alignItems="center" justifyContent="center">
       <h1>Welcome</h1>
       <Icon name={icon} size="xxl"></Icon>
       <p>This is a basic chat app. Meow!</p>

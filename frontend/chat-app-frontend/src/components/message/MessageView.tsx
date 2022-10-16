@@ -17,6 +17,7 @@ import { SERVER_URL } from "../../utils/constants";
 import { NullableString, Thread } from "../../types/common";
 import { User } from "../../types/common";
 import axios from "axios";
+import "./Message.css";
 
 interface MessageViewProps {
   authorized: boolean;
@@ -89,17 +90,22 @@ const MessageView = ({ authorized, userList }: MessageViewProps) => {
         <h1 className="n-typescale-l">Message list</h1>
       </Header>
       {withUnauthorized(
-        <Stack gap="l">
-          <Stack gap="l">
-            {messages.map(msg => (
-              <Card key={`msg-${msg.id}`} className="msg-card">
-                <h2 slot="header">{getUsernameFromId(userList, msg.sender)}</h2>
-                {msg.content}
-                <div slot="header-end">
-                  {getHumanFriendlyDate(msg.updatedAt)}
-                </div>
-              </Card>
-            ))}
+        <Stack className="message-container" gap="l">
+          <Stack className="message-display" gap="l">
+            {messages // might cause performance issue? Maybe I'm a bit over-engineered
+              .slice()
+              .reverse()
+              .map(msg => (
+                <Card key={`msg-${msg.id}`} className="msg-card">
+                  <h2 slot="header">
+                    {getUsernameFromId(userList, msg.sender)}
+                  </h2>
+                  {msg.content}
+                  <div slot="header-end">
+                    {getHumanFriendlyDate(msg.updatedAt)}
+                  </div>
+                </Card>
+              ))}
           </Stack>
           {error && <Banner variant="danger">{error}</Banner>}
           <Stack direction="horizontal" alignItems="center">

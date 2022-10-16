@@ -1,0 +1,11 @@
+.message-container {
+  height: calc(100vh - 136px);
+}
+
+.message-display {
+  flex-direction: column-reverse;
+  flex-grow: 1;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  padding: var(--n-space-s)
+}

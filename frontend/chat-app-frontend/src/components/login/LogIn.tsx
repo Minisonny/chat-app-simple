@@ -59,8 +59,6 @@ function LogIn({ onSignIn }: LogInProps) {
               value={password}
               onChange={e => setPassword((e.target as HTMLInputElement).value)}
             ></Input>
-
-            <a href="#forgot">Forgot password?</a>
           </div>
           <Button type="submit" expand variant="primary" onClick={handleSubmit}>
             Sign in
