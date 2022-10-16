@@ -7,29 +7,50 @@ import {
   Stack,
   Banner
 } from "@nordhealth/react";
-import SocketIOClient from "socket.io-client";
+import SocketIOClient, { Socket } from "socket.io-client";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { createMessages, listMessages } from "../../api/messageApi";
 import { getUsernameFromId } from "../../utils/helpers";
 import { withUnauthorized } from "../empty-state/Unauthorized";
 import { SERVER_URL } from "../../utils/constants";
+import { Nullable } from "../../types/common";
+import { User } from "../App";
 
-const MessageView = ({ authorized, userList }) => {
-  const [messages, setMessages] = useState([]);
-  const [newMsg, setNewMsg] = useState("");
-  const [error, setError] = useState(null);
+interface MessageViewProps {
+  authorized: boolean;
+  userList: Array<string>;
+};
+
+interface Message {
+  id: number;
+  content: string;
+  sender: number;
+  threadId: number;
+  createdAt: string;
+  updatedAt: string;
+  user: User;
+  thread: {
+    id: number,
+    username: string
+  }
+};
+
+const MessageView = ({ authorized, userList }: MessageViewProps) => {
+  const [messages, setMessages] = useState<Array<Message>>([]);
+  const [newMsg, setNewMsg] = useState<string>("");
+  const [error, setError] = useState<Nullable<string>>(null);
   const { id } = useParams();
 
   useEffect(() => {
     // backend doesn't check token for socket handshake?
-    const io = SocketIOClient(SERVER_URL, {
+    const io: Socket = SocketIOClient(SERVER_URL, {
       path: "/socket",
       query: { thread: id }
     });
 
-    io.on("message", newMessage =>
-      setMessages(prevMessages => prevMessages.concat(newMessage))
+    io.on("message", (newMessage: Message) =>
+      setMessages((prevMessages: Array<Message>) => prevMessages.concat(newMessage))
     );
 
     return () => io.disconnect();
@@ -50,7 +71,7 @@ const MessageView = ({ authorized, userList }) => {
     setNewMsg("");
   };
 
-  const onEnterPressed = async e => {
+  const onEnterPressed = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       await onMessageSend();
     }

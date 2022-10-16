@@ -12,9 +12,15 @@ import { listUsers } from "../api/userApi";
 import ThreadCreate from "./thread/ThreadCreate";
 import NotFound from "./empty-state/NotFound";
 import Welcome from "./Welcome";
+import { Nullable } from "../types/common";
+
+export interface User {
+  id: number;
+  username: string;
+};
 
 const App = () => {
-  const [loggedInUser, setLoggedInUser] = useState(null);
+  const [loggedInUser, setLoggedInUser] = useState<Nullable<User>>(null);
   const [userList, setUserList] = useState([]);
   const [toast, setToast] = useState(null);
 
