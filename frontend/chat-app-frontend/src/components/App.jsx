@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Navigate, Route, Routes } from "react-router";
+import React, { useState } from "react";
+import { Route, Routes } from "react-router";
 import LogIn from "./login/LogIn";
 import Register from "./login/Register";
 import "@nordhealth/css";
@@ -17,10 +17,6 @@ const App = () => {
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [userList, setUserList] = useState([]);
   const [toast, setToast] = useState(null);
-
-  useEffect(() => {
-    // const io = socketIOClient(SERVER_URL);
-  }, []);
 
   const onSignIn = async user => {
     setLoggedInUser(user);

@@ -29,7 +29,7 @@ const Welcome = ({ user }) => {
       <Stack justify-content="center" gap="s" direction="horizontal">
         {user ? (
           <Button variant="primary" onClick={shuffleIcon}>
-            Play gatcha
+            Play gacha
           </Button>
         ) : (
           <Button variant="primary" onClick={() => navigate("/login")}>

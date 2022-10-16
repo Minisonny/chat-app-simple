@@ -7,11 +7,13 @@ import {
   Stack,
   Banner
 } from "@nordhealth/react";
+import SocketIOClient from "socket.io-client";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { createMessages, listMessages } from "../../api/messageApi";
 import { getUsernameFromId } from "../../utils/helpers";
 import { withUnauthorized } from "../empty-state/Unauthorized";
+import { SERVER_URL } from "../../utils/constants";
 
 const MessageView = ({ authorized, userList }) => {
   const [messages, setMessages] = useState([]);
@@ -20,13 +22,27 @@ const MessageView = ({ authorized, userList }) => {
   const { id } = useParams();
 
   useEffect(() => {
+    // backend doesn't check token for socket handshake?
+    const io = SocketIOClient(SERVER_URL, {
+      path: "/socket",
+      query: { thread: id }
+    });
+
+    io.on("message", newMessage =>
+      setMessages(prevMessages => prevMessages.concat(newMessage))
+    );
+
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
     listMessages(id).then(res => setMessages(res));
   }, [id]);
 
   const onMessageSend = async () => {
     try {
-      const createdMessage = await createMessages(id, newMsg);
-      setMessages(messages.concat(createdMessage));
+      // new message is handled and added to the UI by socket IO
+      await createMessages(id, newMsg);
     } catch (err) {
       setError(err.response.data.errors.msg);
     }
