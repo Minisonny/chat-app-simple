@@ -11,7 +11,7 @@ import SocketIOClient, { Socket } from "socket.io-client";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { createMessages, listMessages } from "../../api/messageApi";
-import { getUsernameFromId } from "../../utils/helpers";
+import { getHumanFriendlyDate, getUsernameFromId } from "../../utils/helpers";
 import { withUnauthorized } from "../empty-state/Unauthorized";
 import { SERVER_URL } from "../../utils/constants";
 import { NullableString, Thread } from "../../types/common";
@@ -88,7 +88,7 @@ const MessageView = ({ authorized, userList }: MessageViewProps) => {
               <Card key={`msg-${msg.id}`} className="msg-card">
                 <h2 slot="header">{getUsernameFromId(userList, msg.sender)}</h2>
                 {msg.content}
-                <div slot="header-end">{msg.updatedAt}</div>
+                <div slot="header-end">{getHumanFriendlyDate(msg.updatedAt)}</div>
               </Card>
             ))}
           </Stack>
