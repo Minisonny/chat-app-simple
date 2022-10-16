@@ -5,7 +5,11 @@ import { Link } from "react-router-dom";
 import { registerUser } from "../../api/userApi";
 import { NullableString } from "../../types/common";
 
-function Register() {
+interface RegisterProps {
+  onRegister: (username: string) => void;
+};
+
+function Register({ onRegister }: RegisterProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -23,6 +27,7 @@ function Register() {
     try {
       await registerUser(username, password, confirmPassword);
       setError(null);
+      onRegister(username);
     } catch (err) {
       setError(err.response.data.errors[0]?.msg);
     }

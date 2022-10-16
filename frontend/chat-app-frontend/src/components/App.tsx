@@ -19,7 +19,7 @@ const App = () => {
   const [userList, setUserList] = useState<Array<User>>([]);
   const [toast, setToast] = useState<NullableString>(null);
 
-  const onSignIn = async (user) => {
+  const onSignIn = async (user: User) => {
     setLoggedInUser(user);
     setToast("Logged in successfully");
 
@@ -34,7 +34,16 @@ const App = () => {
     setToast("Logged out successfully");
   };
 
-  const onThreadCreated = (title) => {
+  const onRegister = async (username: string) => {
+    // Fetch user list again to make sure it's in sync with backend
+    if (loggedInUser) {
+      const listOfUsers = await listUsers();
+      setUserList(listOfUsers);
+    }
+    setToast(`User ${username} created successfully.`);
+  };
+
+  const onThreadCreated = (title: string) => {
     setToast(`Thread "${title}" created`);
   };
 
@@ -49,7 +58,10 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Welcome user={loggedInUser} />} />
           <Route path="/login" element={<LogIn onSignIn={onSignIn} />} />
-          <Route path="/register" element={<Register />} />
+          <Route
+            path="/register"
+            element={<Register onRegister={onRegister} />}
+          />
           <Route
             path="/thread"
             element={

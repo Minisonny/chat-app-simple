@@ -88,7 +88,7 @@ const MessageView = ({ authorized, userList }: MessageViewProps) => {
               <Card key={`msg-${msg.id}`} className="msg-card">
                 <h2 slot="header">{getUsernameFromId(userList, msg.sender)}</h2>
                 {msg.content}
-                <div slot="footer">Updated at: {msg.updatedAt}</div>
+                <div slot="header-end">{msg.updatedAt}</div>
               </Card>
             ))}
           </Stack>
