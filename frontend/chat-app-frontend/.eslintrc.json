@@ -21,7 +21,7 @@
     "ecmaVersion": 2020,
     "sourceType": "module"
   },
-  "plugins": ["react"],
+  "plugins": ["react", "prettier", "@typescript-eslint"],
   "rules": {
     "semi": ["error", "always"],
     "quotes": ["error", "double", { "avoidEscape": true }],

@@ -5,9 +5,10 @@ import { useNavigate } from "react-router";
 import "./ThreadView.css";
 import { getUsernameFromId } from "../../utils/helpers";
 import { withUnauthorized } from "../empty-state/Unauthorized";
+import { Thread } from "../../types/common";
 
 const ThreadView = ({ authorized, userList }) => {
-  const [threads, setThreads] = useState([]);
+  const [threads, setThreads] = useState<Array<Thread>>([]);
 
   const navigate = useNavigate();
 

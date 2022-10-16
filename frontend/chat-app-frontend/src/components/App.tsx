@@ -12,19 +12,14 @@ import { listUsers } from "../api/userApi";
 import ThreadCreate from "./thread/ThreadCreate";
 import NotFound from "./empty-state/NotFound";
 import Welcome from "./Welcome";
-import { Nullable } from "../types/common";
-
-export interface User {
-  id: number;
-  username: string;
-};
+import { Nullable, NullableString, User } from "../types/common";
 
 const App = () => {
   const [loggedInUser, setLoggedInUser] = useState<Nullable<User>>(null);
-  const [userList, setUserList] = useState([]);
-  const [toast, setToast] = useState(null);
+  const [userList, setUserList] = useState<Array<User>>([]);
+  const [toast, setToast] = useState<NullableString>(null);
 
-  const onSignIn = async user => {
+  const onSignIn = async (user) => {
     setLoggedInUser(user);
     setToast("Logged in successfully");
 
@@ -39,7 +34,7 @@ const App = () => {
     setToast("Logged out successfully");
   };
 
-  const onThreadCreated = title => {
+  const onThreadCreated = (title) => {
     setToast(`Thread "${title}" created`);
   };
 
@@ -52,11 +47,10 @@ const App = () => {
       <Layout navOpen={true}>
         <NavigationPanel user={loggedInUser} onSignOut={onSignOut} />
         <Routes>
-          <Route exact path="/" element={<Welcome user={loggedInUser} />} />
-          <Route exact path="/login" element={<LogIn onSignIn={onSignIn} />} />
-          <Route exact path="/register" element={<Register />} />
+          <Route path="/" element={<Welcome user={loggedInUser} />} />
+          <Route path="/login" element={<LogIn onSignIn={onSignIn} />} />
+          <Route path="/register" element={<Register />} />
           <Route
-            exact
             path="/thread"
             element={
               <ThreadView
@@ -66,7 +60,6 @@ const App = () => {
             }
           />
           <Route
-            exact
             path="/thread-create"
             element={
               <ThreadCreate
@@ -77,7 +70,6 @@ const App = () => {
             }
           />
           <Route
-            exact
             path="/thread/:id"
             element={
               <MessageView

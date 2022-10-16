@@ -1,6 +1,8 @@
 import { Stack, Button, Icon } from "@nordhealth/react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
+import { Nullable } from "../types/common";
+import { User } from "../types/common";
 
 const ICON_LIST = [
   "generic-feline",
@@ -11,7 +13,11 @@ const ICON_LIST = [
   "generic-suidae"
 ];
 
-const Welcome = ({ user }) => {
+interface WelcomeProps {
+  user: Nullable<User>;
+};
+
+const Welcome = ({ user }: WelcomeProps) => {
   const [icon, setIcon] = useState(ICON_LIST[0]);
   const navigate = useNavigate();
 

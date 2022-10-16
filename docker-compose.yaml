@@ -31,18 +31,18 @@ services:
     networks:
      - backend
 
-  frontend:
-    build:
-      dockerfile: Dockerfile
-      context:  ./frontend/chat-app-frontend
-    command: ["npm", "start"]
-    depends_on:
-      backend:
-        condition: service_healthy
-    ports:
-      - "3000:3000"
-    networks:
-      - backend
+  # frontend:
+  #   build:
+  #     dockerfile: Dockerfile
+  #     context:  ./frontend/chat-app-frontend
+  #   command: ["npm", "start"]
+  #   depends_on:
+  #     backend:
+  #       condition: service_healthy
+  #   ports:
+  #     - "3000:3000"
+  #   networks:
+  #     - backend
 
 networks:
   backend:

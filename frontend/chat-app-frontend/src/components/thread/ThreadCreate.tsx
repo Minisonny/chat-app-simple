@@ -9,12 +9,20 @@ import {
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { createThread } from "../../api/threadApi";
+import { NullableString } from "../../types/common";
+import { User } from "../../types/common";
 import { withUnauthorized } from "../empty-state/Unauthorized";
 
-const ThreadCreate = ({ authorized, userList, onThreadCreated }) => {
+interface ThreadCreate {
+  authorized: boolean;
+  userList: Array<User>;
+  onThreadCreated: (title: string) => void;
+};
+
+const ThreadCreate = ({ authorized, userList, onThreadCreated }: ThreadCreate) => {
   const [title, setTitle] = useState("");
   const [selectedUserId, setSelectedUserId] = useState("");
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<NullableString>(null);
 
   const navigate = useNavigate();
 

@@ -14,13 +14,15 @@ import { createMessages, listMessages } from "../../api/messageApi";
 import { getUsernameFromId } from "../../utils/helpers";
 import { withUnauthorized } from "../empty-state/Unauthorized";
 import { SERVER_URL } from "../../utils/constants";
-import { Nullable } from "../../types/common";
-import { User } from "../App";
+import { NullableString, Thread } from "../../types/common";
+import { User } from "../../types/common";
 
 interface MessageViewProps {
   authorized: boolean;
-  userList: Array<string>;
+  userList: Array<User>;
 };
+
+type MessageThreadInfo = Omit<Thread, "UserThread">;
 
 interface Message {
   id: number;
@@ -30,16 +32,13 @@ interface Message {
   createdAt: string;
   updatedAt: string;
   user: User;
-  thread: {
-    id: number,
-    username: string
-  }
+  thread: MessageThreadInfo;
 };
 
 const MessageView = ({ authorized, userList }: MessageViewProps) => {
   const [messages, setMessages] = useState<Array<Message>>([]);
   const [newMsg, setNewMsg] = useState<string>("");
-  const [error, setError] = useState<Nullable<string>>(null);
+  const [error, setError] = useState<NullableString>(null);
   const { id } = useParams();
 
   useEffect(() => {

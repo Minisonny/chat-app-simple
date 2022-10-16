@@ -19,7 +19,7 @@ const Unauthorized = () => {
   );
 };
 
-export const withUnauthorized = (node, authorized) =>
+export const withUnauthorized = (node: React.ReactNode, authorized: boolean): React.ReactNode =>
   authorized ? node : <Unauthorized></Unauthorized>;
 
 export default Unauthorized;
