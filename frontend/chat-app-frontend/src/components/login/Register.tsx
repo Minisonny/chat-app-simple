@@ -47,7 +47,7 @@ function Register({ onRegister }: RegisterProps) {
             placeholder="user@example.com"
             required
             value={username}
-            onChange={e => setUsername(e.target.value)}
+            onChange={e => setUsername((e.target as HTMLInputElement).value)}
           ></Input>
           <div className="password">
             <Input
@@ -58,7 +58,7 @@ function Register({ onRegister }: RegisterProps) {
               placeholder="••••••••"
               required
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={e => setPassword((e.target as HTMLInputElement).value)}
             ></Input>
           </div>
           <div className="password">
@@ -70,7 +70,7 @@ function Register({ onRegister }: RegisterProps) {
               placeholder="••••••••"
               required
               value={confirmPassword}
-              onChange={e => setConfirmPassword(e.target.value)}
+              onChange={e => setConfirmPassword((e.target as HTMLInputElement).value)}
             ></Input>
           </div>
           <Button type="submit" expand variant="primary" onClick={handleSubmit}>

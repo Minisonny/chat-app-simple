@@ -43,7 +43,7 @@ function LogIn({ onSignIn }: LogInProps) {
             placeholder="user@example.com"
             required
             value={username}
-            onChange={e => setUsername(e.target.value)}
+            onChange={e => setUsername((e.target as HTMLInputElement).value)}
           ></Input>
           <div className="password">
             <Input
@@ -54,7 +54,7 @@ function LogIn({ onSignIn }: LogInProps) {
               placeholder="••••••••"
               required
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={e => setPassword((e.target as HTMLInputElement).value)}
             ></Input>
 
             <a href="#forgot">Forgot password?</a>

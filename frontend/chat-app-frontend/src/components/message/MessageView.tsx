@@ -99,7 +99,7 @@ const MessageView = ({ authorized, userList }: MessageViewProps) => {
               expand
               hideLabel
               value={newMsg}
-              onChange={e => setNewMsg(e.target.value)}
+              onChange={e => setNewMsg((e.target as HTMLInputElement).value)}
               onKeyUp={onEnterPressed}
               placeholder="New message"
             ></Input>

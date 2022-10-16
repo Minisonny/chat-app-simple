@@ -59,7 +59,7 @@ const ThreadCreate = ({ authorized, userList, onThreadCreated }: ThreadCreate) =
             name="title"
             type="text"
             value={title}
-            onChange={e => setTitle(e.target.value)}
+            onChange={e => setTitle((e.target as HTMLInputElement).value)}
             placeholder="To be or not to be?"
           ></Input>
           <Select
@@ -67,7 +67,7 @@ const ThreadCreate = ({ authorized, userList, onThreadCreated }: ThreadCreate) =
             value={selectedUserId}
             label="Select a participant"
             required
-            onChange={e => setSelectedUserId(e.target.value)}
+            onChange={e => setSelectedUserId((e.target as HTMLInputElement).value)}
           >
             {userList.map(user => (
               <option key={`user-option-${user.id}`} value={user.id}>
