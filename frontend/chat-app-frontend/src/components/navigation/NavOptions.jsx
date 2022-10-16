@@ -4,6 +4,17 @@ import { Link } from "react-router-dom";
 
 const NAV_OPTION_CONFIG = [
   {
+    heading: "",
+    items: [
+      {
+        icon: "interface-home",
+        href: "/",
+        text: "Home",
+        additionalProps: {}
+      }
+    ]
+  },
+  {
     heading: "Thread",
     items: [
       {

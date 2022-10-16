@@ -25,7 +25,8 @@ const MessageView = ({ authorized, userList }) => {
 
   const onMessageSend = async () => {
     try {
-      await createMessages(id, newMsg);
+      const createdMessage = await createMessages(id, newMsg);
+      setMessages(messages.concat(createdMessage));
     } catch (err) {
       setError(err.response.data.errors.msg);
     }
@@ -64,7 +65,7 @@ const MessageView = ({ authorized, userList }) => {
               value={newMsg}
               onChange={e => setNewMsg(e.target.value)}
               onKeyUp={onEnterPressed}
-              placeholder="Aa"
+              placeholder="New message"
             ></Input>
             <Button variant="plain" size="s" onClick={onMessageSend}>
               <Icon name="interface-play" size="l"></Icon>

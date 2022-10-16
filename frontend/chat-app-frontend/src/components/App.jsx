@@ -11,6 +11,7 @@ import { unsetToken } from "../api/tokenManager";
 import { listUsers } from "../api/userApi";
 import ThreadCreate from "./thread/ThreadCreate";
 import NotFound from "./empty-state/NotFound";
+import Welcome from "./Welcome";
 
 const App = () => {
   const [loggedInUser, setLoggedInUser] = useState(null);
@@ -47,12 +48,9 @@ const App = () => {
   return (
     <div className="App">
       <Layout navOpen={true}>
-        <NavigationPanel
-          user={loggedInUser}
-          onSignOut={onSignOut}
-        ></NavigationPanel>
+        <NavigationPanel user={loggedInUser} onSignOut={onSignOut} />
         <Routes>
-          <Route exact path="/" element={<LogIn onSignIn={onSignIn} />} />
+          <Route exact path="/" element={<Welcome user={loggedInUser} />} />
           <Route exact path="/login" element={<LogIn onSignIn={onSignIn} />} />
           <Route exact path="/register" element={<Register />} />
           <Route
@@ -86,7 +84,7 @@ const App = () => {
               />
             }
           />
-          <Route path="*" element={<NotFound></NotFound>} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
         <ToastGroup>
           {toast !== null && (
